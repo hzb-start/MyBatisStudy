@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+
+<mapper namespace="nuc.hzb.mapper.studentMapper">
+
+	<select id="queryStudentCount" resultType="int">
+		select count(*) from student
+ 	</select>
+ 	
+ 	<select id="queryStudentByStuno" parameterType="int" resultType="student">
+		select * from student where stuno = #{stuno}
+	</select>
+	
+	<select id="queryAllStudents" resultType="student">
+		select * from student
+	</select>
+	
+	<!--  别名作为map的key-->
+	<select id="queryStuOutByHashMap" parameterType="int" resultType="HashMap">
+		select stuno "no", stuname "name" from student where stuno = #{stuno}
+	</select>
+	
+	<select id="queryStuOutByHashMaps" parameterType="int" resultType="HashMap">
+		select stuno "no", stuname "name" from student where stuno = #{stuno}
+	</select>
+ 	
+ 	
+	
+ 	
+</mapper>

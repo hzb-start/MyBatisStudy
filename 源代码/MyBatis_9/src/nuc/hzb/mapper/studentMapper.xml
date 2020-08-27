@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+
+<mapper namespace="nuc.hzb.mapper.studentMapper">
+
+	
+ 	
+ 	
+ 	<!-- 
+	<select id="queryStuByNOrAWithSQLTag" 	 parameterType="student"	resultType="student" >
+		select stuno,stuname,stuage from student where 1 = 1
+		<if test="stuName != null and stuName!='' "> 
+			and stuname = #{stuName}
+		</if>
+		<if test="stuAge !=null and stuAge!=0 "> 
+			 and  stuage = #{stuAge}
+		</if>
+	</select>
+	-->
+ 	
+ 	<!--推荐用where  -->
+ 	<select id="queryStuByNOrAWithSQLTag" 	 parameterType="student"	resultType="student" >
+		select stuno, stuname, stuage from student
+		<where>
+			<!-- <if test = "student有stuname属性且不为null"> -->
+			<if test = "stuName != null and stuName != '' "> 
+				and stuname = #{stuName}
+			</if>
+			<if test = "stuAge != null and stuAge != 0 "> 
+				and stuage = #{stuAge}
+			</if>
+		</where>
+	</select>
+	
+	
+	
+	<!-- 将多个元素值放入对象的属性中-->
+	<select id="queryStuWithNosInGrade" parameterType="grade" resultType="student">
+		select * from student
+		<where>
+			<if test="stuNos != null and stuNos.size > 0">
+				<foreach collection="stuNos" open="and stuno in (" close=")" item="stuNo" separator=",">
+					#{stuNo}
+				</foreach>
+			</if>
+		</where>
+	</select>
+	
+	<!-- 将多个元素值放入数组中int[] stuNos = {1, 2, 3} -->
+	<select id="queryStudentsWithArray" parameterType="int[]" resultType="student">
+		select * from student
+		<where>
+			<if test="array!=null and array.length">
+				<foreach collection="array" open="and stuno in (" close=")" item="stuNo" separator=",">
+					#{stuNo}
+				</foreach>
+			</if>
+		</where>
+	</select>
+	
+	<!-- 将多个元素值放入对象数组中student[] students = [student1, student2] -->
+	<select id="queryStudentsWithObjectArray" parameterType="Object[]" resultType="student">
+		select * from student
+		<where>
+			<if test="array!=null and array.length">
+				<foreach collection="array" open="and stuno in (" close=")" item="student" separator=",">
+					#{student.stuNo}
+				</foreach>
+			</if>
+		</where>
+	</select>
+ 	
+ 	
+ 	
+ 	<sql id="ObjectArray">
+ 		<where>
+			<if test="array!=null and array.length">
+				<foreach collection="array" open="and stuno in (" close=")" item="student" separator=",">
+					#{student.stuNo}
+				</foreach>
+			</if>
+		</where>
+ 	</sql>
+ 			
+ 	<select id="queryStudentsWithObjectArray1" parameterType="Object[]" resultType="student">
+		select * from student
+		<include refid="ObjectArray"></include>
+	</select>
+</mapper>

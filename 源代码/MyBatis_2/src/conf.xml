@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 通过environments的default值和environment的id值来指定MyBatis运行时的数据库环境-->
+	<environments default="development">
+	
+		<!-- 开发环境（本机计算机）development-->
+		<environment id="development">
+			<!-- 
+				事务的提交方式
+				JDBC：利用JDBC方式处理事务（commit、rollback、close）
+				MANAGED：将事务交由其他组件去托管（Spring、jobss等等）默认使用完后自动关闭连接
+				<property name="closeConnection" value="false"/>，通过这个配置可以防止使用完后不自动关闭		
+			 -->
+			<transactionManager type="JDBC" />	
+			<!-- 
+				数据源类型：
+				UNPOOLED：传统的JDBC模式（每次访问数据库均需要打开、关闭等数据库操作，但是打开、关闭数据库是比较消耗性能的）
+				POOLED：使用数据库连接池（第三方连接池）
+				JNDI：从tomcat中获取一个内置的数据库连接池（连接池暂时理解为数据源，有略微差别）		
+			 -->
+			<dataSource type="POOLED">
+				<!--配置数据库信息-->				
+				<property name="driver" value="oracle.jdbc.OracleDriver" />
+				<property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:ORCL" />
+				<property name="username" value="scott" />
+				<property name="password" value="tiger" />
+			</dataSource>	
+		</environment>
+		
+		<!-- 真正的项目应该在发布（实施）的那台计算机上运行，实施计算机-->
+		<environment id="implement">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<!--配置数据库信息-->
+				<property name="driver" value="oracle.jdbc.OracleDriver" />
+				<property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:ORCL" />
+				<property name="username" value="scott" />
+				<property name="password" value="tiger" />
+			</dataSource>
+		</environment>
+		
+		<!-- 测试计算机 -->
+		<environment id="test">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<!--配置数据库信息-->
+				<property name="driver" value="oracle.jdbc.OracleDriver" />
+				<property name="url" value="jdbc:oracle:thin:@92.1.118.1:1521:ORCL" />
+				<property name="username" value="scott" />
+				<property name="password" value="tiger" />
+			</dataSource>
+		</environment>
+		
+	</environments>
+	
+	<mappers>
+		<!--加载映射文件-->
+		<mapper resource="nuc/hzb/entity/studentMapper.xml" />
+	</mappers>
+</configuration>

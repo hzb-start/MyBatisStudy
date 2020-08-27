@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+
+<mapper namespace="nuc.hzb.mapper.studentMapper">
+
+	<!-- 声明此namespace开启二级缓存 -->
+ 	<cache/>
+ 	<select id="queryStudentByStuno" parameterType="int" resultType="student">
+		select * from student where stuno = #{stuno}
+	</select>
+	
+	<!-- <select id="queryAllStudents" resultType="student" useCache="false"> -->
+	<select id="queryAllStudents" resultType="student" flushCache="true">
+		select * from student
+	</select>
+	
+</mapper>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+
+<mapper namespace="nuc.hzb.mapper.studentMapper">
+
+	<select id="queryStudentByStuno" parameterType="int" resultMap="studentResult">
+		select * from student where stuno = #{stuno}
+	</select>
+	
+	<resultMap type="student" id="studentResult">
+		<!-- 分为主键id，非主键result -->
+		<id property="stuNo" column="stuno"/>
+		<result property="stuName" column="stuname"/>
+		<result property="stuAge" column="stuage"/>
+		<result property="graName" column="graname"/>
+		<result property="stuSex" column="stusex" javaType="boolean" jdbcType="INTEGER"/>
+	</resultMap>
+	
+	<insert id="addStudent" parameterType="student">
+		insert into student(stuno, stuname, stuage, graname, stusex) values(#{stuNo}, #{stuName}, #{stuAge}, #{graName}, #{stuSex, javaType=boolean, jdbcType=INTEGER})
+	</insert>
+	
+	<delete id="deleteStudentByStuno" parameterType="int">
+		delete from student where stuno = #{stuno}
+	</delete>
+	
+	<update id="updateStudentByStuno" parameterType="student">
+		update student set stuname=#{stuName},stuage=#{stuAge},graname=#{graName} where stuno=#{stuNo}
+	</update>
+	
+	<select id="queryAllStudents" resultType="student">
+		select * from student
+	</select>	
+</mapper>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+
+<mapper namespace="nuc.hzb.mapper.studentMapper">
+
+
+	<resultMap type="student" id="student_studentcard">
+		<!-- 学生属性-->
+		<id property="stuNo" column="stuno"/>
+		<result property="stuName" column="stuname"/>
+		<result property="stuAge" column="stuage"/>	
+		<!-- 一对一-->
+		<association property="studentCard" javaType="StudentCard">
+			<id property="cardid" column="cardid" />
+			<result property="cardinfo" column="cardinfo" />	
+		</association>
+	</resultMap>
+	
+ 	<select id="queryWithStudentWithOO" parameterType="int" resultMap="student_studentcard">
+ 		select s.*, c.* from student s inner join studentcard c on s.cardid = c.cardid where stuno = #{StuNo}
+ 	</select>
+ 	
+ 	<resultMap type="student" id="student_studentcard_lazy">
+		<id property="stuNo" column="stuno"/>
+		<result property="stuName" column="stuname"/>
+		<result property="stuAge" column="stuage"/>	
+		<!-- 学生证  ,通过select在需要的时候再查学生证 -->
+		<association property="studentCard" javaType="StudentCard" select="nuc.hzb.mapper.StudentCardMapper.queryCardById"  column="cardid">
+			<!-- 
+			 一对一时，对象成员使用 association映射;javaType指定该属性的类型
+			 此次采用延迟加载：在查询学生时，并不立即加载 学生证信息
+			-->
+		</association>
+	</resultMap>
+ 	
+ 	<select id="queryWithStudentWithOOLazy" resultMap="student_studentcard_lazy">
+ 		select * from student
+ 	</select>
+ 	
+ 	<select id="queryStudentsByClassId" parameterType="int" resultType="student">
+ 		select * from student where classid = #{classid}
+ 	</select>
+ 	
+
+ 	
+ 	
+</mapper>

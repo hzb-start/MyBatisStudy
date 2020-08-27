@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+
+<mapper namespace="nuc.hzb.mapper.studentMapper">
+
+	<select id="queryStudentByAddress" parameterType="address" resultType="student">
+		select * from student where homeaddress = #{homeAddress} or schooladdress like '${schoolAddress}' 
+ 	</select>
+	
+	<select id="queryStudentByAddress1" parameterType="student" resultType="student">
+		select * from student where homeaddress = #{address.homeAddress} or schooladdress like '${address.schoolAddress}' 
+ 	</select>
+ 	
+ 	<select id="queryStudentByStuAgeOrStuNameWithHashMap" parameterType="hashmap" resultType="student">
+		select * from student where stuage = #{stuAge} or stuname like '%${stuName}%'
+ 	</select>
+ 	
+ 	
+ 	
+ 	<!--通过调用存储过程实现查询
+ 		存储过程的输入参数，在MyBatis用Map来传递（HashMap）	
+ 	-->
+ 	<select id="queryCountByGradeWithProcedure" statementType="CALLABLE" parameterType="HashMap">
+ 		{
+ 			CALL queryCountByGradeWithProcedure
+ 			(
+ 			#{gName, jdbcType=VARCHAR, mode=IN},
+ 			#{sCount, jdbcType=INTEGER, mode=OUT}
+ 			)
+ 		}	
+ 	</select>
+	
+ 	
+ 	<delete id="deleteStuByNoWithProcedure" statementType="CALLABLE" parameterType="HashMap">
+ 		{
+ 			CALL deleteStuByNoWithProcedure
+ 			(
+ 			#{sno, jdbcType=INTEGER, mode=IN}
+ 			)
+ 		}
+ 	</delete>
+</mapper>

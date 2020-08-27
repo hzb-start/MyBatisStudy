@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <!-- namespace：该mapper.xml映射文件的唯一标识 -->
+<mapper namespace="nuc.hzb.entity.studentMapper">
+
+	<!-- 后续通过namespace.id定位该sql语句 -->
+	<!-- parameterType：输入参数的类型 -->
+	<!-- resultType：查询返回结果值的类型，返回类型 -->
+	<select id="queryStudentByStuno" parameterType="int" resultType="nuc.hzb.entity.Student">
+		select * from student where stuno = #{stuno}
+		<!-- stuno属于占位符，可以写其他的单词 -->
+	</select>
+	
+	<!-- 语法上只允许写一个输入值，一个输出值  -->
+	<insert id="addStudent" parameterType="nuc.hzb.entity.Student">
+		insert into student(stuno, stuname, stuage, graname) values(#{stuNo}, #{stuName}, #{stuAge}, #{graName})
+	</insert>
+	
+	
+	<delete id="deleteStudentByStuno" parameterType="int">
+		delete from student where stuno = #{stuno}
+	</delete>
+	
+	<update id="updateStudentByStuno" parameterType="nuc.hzb.entity.Student">
+		update student set stuname=#{stuName},stuage=#{stuAge},graname=#{graName} where stuno=#{stuNo}
+	</update>
+	<select id="queryAllStudents" resultType="nuc.hzb.entity.Student">
+		select * from student
+	</select>	
+</mapper>

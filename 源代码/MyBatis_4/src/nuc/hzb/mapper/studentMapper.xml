@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+
+<mapper namespace="nuc.hzb.mapper.studentMapper">
+
+	<select id="queryStudentByStuno" parameterType="int" resultType="student">
+		select * from student where stuno = #{stuno}
+	</select>
+	
+	<insert id="addStudent" parameterType="student">
+		insert into student(stuno, stuname, stuage, graname) values(#{stuNo}, #{stuName}, #{stuAge}, #{graName})
+	</insert>
+	
+	<delete id="deleteStudentByStuno" parameterType="int">
+		delete from student where stuno = #{stuno}
+	</delete>
+	
+	<update id="updateStudentByStuno" parameterType="student">
+		update student set stuname=#{stuName},stuage=#{stuAge},graname=#{graName} where stuno=#{stuNo}
+	</update>
+	
+	<select id="queryAllStudents" resultType="student">
+		select * from student
+	</select>	
+</mapper>
